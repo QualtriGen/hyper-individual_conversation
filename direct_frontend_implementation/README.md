@@ -110,7 +110,7 @@ Create survey questions to collect the following information (exact field names 
 1. Create new **Text/Graphic** question after participant information questions
 2. Click gear icon and select **Add JavaScript**
 3. Copy entire contents of `personalized_communication.js`
-4. Replace API key: `REPLACE YOUR OPENROUTER API KEY HERE` with your OpenRouter API key
+4. Replace API key: `ADD YOUR OPENROUTER API KEY HERE` with your OpenRouter API key
 5. Save the question
 
 ### Step 5: Test Your Implementation
@@ -121,14 +121,6 @@ Create survey questions to collect the following information (exact field names 
 4. Test conversation flow and commitment detection
 5. Check data is saved to embedded fields
 
-## File Structure
-
-```
-├── personalized_communication.js  # Main JavaScript implementation
-├── README.md                      # This file
-└── docs/                         # Additional documentation
-    └── implementation_guide.pdf   # Detailed implementation guide
-```
 
 ## How It Works
 
