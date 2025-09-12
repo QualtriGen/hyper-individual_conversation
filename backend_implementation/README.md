@@ -189,4 +189,3 @@ Edit the model in `app.py`:
 ## License
 
 MIT License - see LICENSE file for details
-
