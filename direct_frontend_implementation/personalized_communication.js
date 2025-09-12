@@ -59,7 +59,7 @@ Qualtrics.SurveyEngine.addOnload(function() {
     console.log('Embedded Data Status:', dataStatus);
 
     // OpenRouter API configuration - CORRECTED
-    const API_KEY = "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";
+    const API_KEY = "ADD YOUR OPENROUTER API KEY HERE";
     const API_URL = "https://openrouter.ai/api/v1/chat/completions";
     
     // Conversation storage
@@ -789,3 +789,4 @@ window.addEventListener('beforeunload', function() {
         Qualtrics.SurveyEngine.setEmbeddedData('final_sustainability_commitments', JSON.stringify(sustainabilityCommitments));
     }
 });
+
