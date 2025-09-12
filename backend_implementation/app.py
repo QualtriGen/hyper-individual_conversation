@@ -275,6 +275,42 @@ def try_alternative_models(messages, headers):
     
     return None
 
+# Add this right after creating the Flask app (after line 10)
+@app.before_request
+def log_request_info():
+    """Log all incoming requests for debugging"""
+    logger.info(f"=== Incoming Request ===")
+    logger.info(f"URL: {request.url}")
+    logger.info(f"Method: {request.method}")
+    logger.info(f"Path: {request.path}")
+    logger.info(f"Headers: {dict(request.headers)}")
+    logger.info(f"======================")
+
+# Also, let's add a catch-all route to see what's happening
+@app.route('/<path:path>', methods=['GET', 'POST', 'PUT', 'DELETE'])
+def catch_all(path):
+    """Catch all undefined routes for debugging"""
+    logger.warning(f"Undefined route accessed: {path} with method {request.method}")
+    return jsonify({
+        'error': 'Route not found',
+        'path': path,
+        'method': request.method,
+        'available_routes': [str(rule) for rule in app.url_map.iter_rules()]
+    }), 404
+
+# This will list all registered routes
+@app.route('/routes')
+def list_routes():
+    """List all registered routes for debugging"""
+    routes = []
+    for rule in app.url_map.iter_rules():
+        routes.append({
+            'endpoint': rule.endpoint,
+            'methods': list(rule.methods),
+            'path': str(rule)
+        })
+    return jsonify(routes)
+
 if __name__ == '__main__':
     # Run the Flask app
     port = int(os.environ.get('PORT', 5000))
