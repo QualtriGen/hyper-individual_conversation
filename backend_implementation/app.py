@@ -9,13 +9,8 @@ from functools import wraps
 
 app = Flask(__name__)
 
-# Configure CORS for Qualtrics domains
-CORS(app, origins=[
-    "*",
-    "https://*.qualtrics.com",
-    "http://localhost:*",
-    "http://127.0.0.1:*"
-], supports_credentials=True)
+# Configure CORS more permissively
+CORS(app, resources={r"/*": {"origins": "*", "methods": ["GET", "POST", "OPTIONS"], "allow_headers": "*"}})
 
 # Configure logging
 logging.basicConfig(level=logging.INFO)
@@ -44,6 +39,27 @@ def log_request(f):
         
         return response
     return decorated_function
+
+# Add this to handle preflight requests globally
+@app.before_request
+def handle_preflight():
+    if request.method == "OPTIONS":
+        response = make_response()
+        response.headers['Access-Control-Allow-Origin'] = '*'
+        response.headers['Access-Control-Allow-Methods'] = 'GET, POST, OPTIONS'
+        response.headers['Access-Control-Allow-Headers'] = '*'
+        response.headers['Access-Control-Max-Age'] = '3600'
+        return response
+
+# Also add explicit headers to all responses
+@app.after_request
+def after_request(response):
+    origin = request.headers.get('Origin', '*')
+    response.headers['Access-Control-Allow-Origin'] = origin
+    response.headers['Access-Control-Allow-Methods'] = 'GET, POST, OPTIONS'
+    response.headers['Access-Control-Allow-Headers'] = 'Content-Type, Authorization'
+    response.headers['Access-Control-Allow-Credentials'] = 'true'
+    return response
 
 # Add root route for debugging
 @app.route('/', methods=['GET'])
