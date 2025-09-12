@@ -2,7 +2,7 @@ import os
 import json
 import logging
 from datetime import datetime
-from flask import Flask, request, jsonify
+from flask import Flask, request, jsonify, make_response
 from flask_cors import CORS
 import requests
 from functools import wraps
@@ -45,6 +45,19 @@ def log_request(f):
         return response
     return decorated_function
 
+# Add root route for debugging
+@app.route('/', methods=['GET'])
+def index():
+    """Root endpoint"""
+    return jsonify({
+        'service': 'Personalized Communication API',
+        'status': 'running',
+        'endpoints': {
+            '/health': 'GET - Health check',
+            '/api/communicate': 'POST - Send message to AI'
+        }
+    })
+
 @app.route('/health', methods=['GET'])
 def health_check():
     """Health check endpoint"""
@@ -53,6 +66,39 @@ def health_check():
         'timestamp': datetime.utcnow().isoformat(),
         'api_key_configured': bool(OPENROUTER_API_KEY)
     })
+
+# Handle OPTIONS for CORS preflight
+@app.route('/api/communicate', methods=['OPTIONS'])
+def communicate_options():
+    """Handle preflight OPTIONS requests"""
+    response = make_response()
+    response.headers['Access-Control-Allow-Origin'] = '*'
+    response.headers['Access-Control-Allow-Methods'] = 'POST, OPTIONS'
+    response.headers['Access-Control-Allow-Headers'] = 'Content-Type'
+    return response, 200
+
+# Handle GET with helpful error
+@app.route('/api/communicate', methods=['GET'])
+def communicate_get():
+    """Handle GET requests with usage information"""
+    return jsonify({
+        'error': 'Method not allowed. This endpoint requires POST.',
+        'usage': {
+            'method': 'POST',
+            'headers': {'Content-Type': 'application/json'},
+            'body': {
+                'participant_id': 'string',
+                'participant_data': {
+                    'name': 'string',
+                    'age': 'number',
+                    'location': 'string',
+                    '...': 'other fields'
+                },
+                'messages': 'array of message objects',
+                'user_message': 'string'
+            }
+        }
+    }), 405
 
 @app.route('/api/communicate', methods=['POST'])
 @log_request
