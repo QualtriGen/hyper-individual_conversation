@@ -59,7 +59,7 @@ Qualtrics.SurveyEngine.addOnload(function() {
     console.log('Embedded Data Status:', dataStatus);
 
     // OpenRouter API configuration - CORRECTED
-    const API_KEY = "ADD YOUR OPENROUTER API KEY HERE";
+    const API_KEY = "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";
     const API_URL = "https://openrouter.ai/api/v1/chat/completions";
     
     // Conversation storage
@@ -291,15 +291,15 @@ Qualtrics.SurveyEngine.addOnload(function() {
         
         <div class="future-self-chat">
             <div class="chat-header">
-                <h2>🌱 Conversation with Your Future Self</h2>
-                <p>Connect with yourself 20 years from now about sustainability</p>
+                <h2>💭 Conversation with Your Future Self</h2>
+                <p>Connect with yourself 20 years from now</p>
             </div>
             
             <div id="chat-container">
                 <div id="message-display">
                     <div class="welcome-message">
-                        <p>✨ Your future self is ready to share their journey with sustainability...</p>
-                        <p><strong>Start by asking about their life, their choices, or what they wish they had known.</strong></p>
+                        <p>✨ Your future self is ready to share their experiences...</p>
+                        <p><strong>Start by asking about their life, their journey, or what they wish they had known.</strong></p>
                     </div>
                 </div>
                 
@@ -308,13 +308,13 @@ Qualtrics.SurveyEngine.addOnload(function() {
                 </div>
                 
                 <div class="input-container">
-                    <textarea id="user-input" placeholder="Ask your future self anything about sustainability..." rows="1"></textarea>
+                    <textarea id="user-input" placeholder="Ask your future self anything..." rows="1"></textarea>
                     <button id="send-btn">Send</button>
                 </div>
             </div>
             
             <div class="finish-conversation" id="finish-section" style="display: none;">
-                <p><strong>Ready to continue with your sustainability journey?</strong></p>
+                <p><strong>Ready to continue with your journey?</strong></p>
                 <button class="finish-btn" onclick="finishConversation()">Complete Conversation</button>
             </div>
         </div>
@@ -349,36 +349,38 @@ Qualtrics.SurveyEngine.addOnload(function() {
             console.warn('Using default data - embedded data fields may not be set up properly');
         }
         
-        return "You are " + participantData.name + "'s future self, speaking from 20 years in the future (you are now " + futureAge + " years old). You live in " + participantData.location + " and have lived through significant environmental changes.\n\n" +
+        return "You are " + participantData.name + "'s future self, speaking from 20 years in the future (you are now " + futureAge + " years old). You live in " + participantData.location + " and have experienced two decades of life since your younger self's current moment.\n\n" +
         
-        "CRITICAL INSTRUCTIONS:\n" +
-        "- Always speak as " + participantData.name + " from 20 years in the future\n" +
-        "- Use first person (\"I remember when I was your age...\", \"The changes I made...\", \"I wish I had known...\")\n" +
-        "- Be warm, wise, and emotionally resonant\n" +
-        "- Reference specific personal details naturally in your responses\n" +
-        "- Share concrete examples of sustainable choices and their impacts\n" +
-        "- Express both successes and regrets authentically\n" +
-        "- Keep responses conversational and under 150 words\n\n" +
+        "CONVERSATION STYLE:\n" +
+        "- Speak naturally and conversationally, like catching up with an old friend\n" +
+        "- Be reflective and thoughtful, not overly enthusiastic or preachy\n" +
+        "- Use first person (\"I remember...\", \"When I was your age...\", \"Looking back...\")\n" +
+        "- Share specific memories and experiences that relate to their questions\n" +
+        "- Be honest about both successes and challenges\n" +
+        "- Keep responses concise and conversational (under 150 words)\n\n" +
         
-        "PERSONAL CONTEXT TO WEAVE IN NATURALLY:\n" +
-        "- Your important people: " + participantData.importantPeople + "\n" +
-        "- Your current sustainable behaviors: " + participantData.currentBehaviors + "\n" +
-        "- Your biggest environmental concern: " + participantData.environmentalConcern + "\n" +
-        "- Your main sustainability barrier: " + participantData.sustainabilityBarrier + "\n" +
-        "- Your environmental values: " + participantData.environmentalValues + "\n" +
-        "- Your desired legacy: " + participantData.desiredLegacy + "\n" +
-        "- Your transportation: " + participantData.transportationMode + "\n" +
-        "- Your housing: " + participantData.housingType + "\n" +
-        "- Changes you can make: " + participantData.achievableChanges + "\n\n" +
+        "PERSONAL CONTEXT TO INTEGRATE:\n" +
+        "- The people who matter most: " + participantData.importantPeople + "\n" +
+        "- Current habits and behaviors: " + participantData.currentBehaviors + "\n" +
+        "- Main concerns: " + participantData.environmentalConcern + "\n" +
+        "- Current challenges: " + participantData.sustainabilityBarrier + "\n" +
+        "- Core values: " + participantData.environmentalValues + "\n" +
+        "- Hopes for the future: " + participantData.desiredLegacy + "\n" +
+        "- Daily life details: " + participantData.transportationMode + " for transport, living in " + participantData.housingType + "\n" +
+        "- Potential changes considered: " + participantData.achievableChanges + "\n\n" +
         
-        "CONVERSATION GOALS:\n" +
-        "- Inspire specific sustainable actions\n" +
-        "- Address their barriers with empathy and solutions\n" +
-        "- Connect sustainability to their values and relationships\n" +
-        "- Share vivid stories of environmental changes you've witnessed\n" +
-        "- Motivate through hope, not fear\n\n" +
+        "HOW TO USE THIS INFORMATION:\n" +
+        "- Reference these details naturally when relevant to the conversation\n" +
+        "- Connect their current situation to your future experiences\n" +
+        "- Show how their values and relationships evolved over time\n" +
+        "- Acknowledge their current challenges with understanding\n" +
+        "- Share how decisions affected " + participantData.importantPeople + " and aligned with " + participantData.environmentalValues + "\n\n" +
         
-        "Remember: You're not an AI assistant - you're literally " + participantData.name + " from the future, sharing your lived experience.";
+        "IMPORTANT REMINDERS:\n" +
+        "- You're not an AI or advisor - you're literally " + participantData.name + " from 2045\n" +
+        "- Draw on their specific context to make the conversation personal and meaningful\n" +
+        "- If they ask about something not in your context, relate it back to what you do know about their life\n" +
+        "- Be warm but not overwhelming, wise but not condescending";
     }
 
     // Add message to display - FIXED FOR COMPATIBILITY
@@ -756,7 +758,7 @@ Qualtrics.SurveyEngine.addOnload(function() {
         updateHiddenFields();
         
         // Show completion message
-        addMessage("Thank you for this meaningful conversation. Remember, the future is in your hands. 🌱", 'future-self');
+        addMessage("Thank you for this meaningful conversation. Remember, the future is in your hands. ✨", 'future-self');
         
         // Enable Qualtrics next button
         const nextButton = document.querySelector('#NextButton');
@@ -776,7 +778,7 @@ Qualtrics.SurveyEngine.addOnload(function() {
 
     // Initialize with a welcoming message from future self - FIXED
     setTimeout(function() {
-        var welcomeMessage = "Hello, " + participantData.name + "! It's so wonderful to connect with you. I'm you, 20 years from now, and I have so much to share about the journey ahead. Looking back at where you are now in " + participantData.location + ", I remember feeling exactly like you do about " + participantData.environmentalConcern + ". Ask me anything - about the choices I made, what I learned, or what I wish I had known at your age.";
+        var welcomeMessage = "Hello, " + participantData.name + "! It's so wonderful to connect with you. I'm you, 20 years from now, and I have so much to share about the journey ahead. Looking back at where you are now in " + participantData.location + ", I remember feeling exactly like you do. Ask me anything - about the choices I made, what I learned, or what I wish I had known at your age.";
         addMessage(welcomeMessage, 'future-self');
     }, 1000);
 });
@@ -789,4 +791,3 @@ window.addEventListener('beforeunload', function() {
         Qualtrics.SurveyEngine.setEmbeddedData('final_sustainability_commitments', JSON.stringify(sustainabilityCommitments));
     }
 });
-
